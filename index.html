@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="SitePoint" />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+    integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
+
+
+
+
+
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="nav1">
+    <!-- <div class="navitems">With Me Doc's</div> -->
+    <div class="bars" id="docs" class="navitems">Doctors</div>
+    <div class="bars">
+      <i class="fas fa-search"></i>
+      <!-- <img class="navimg" src="C:\Users\karan\Desktop\to_do_list\internship\images\search.png"> -->
+      <div class="navitems">Search</div>
+    </div>
+    <div class="bars">
+      <i class="fas fa-map-marker"></i>
+      <div class="navitems">Nearby</div>
+    </div>
+    <div class="bars">
+      <i class="fas fa-bell"></i>
+
+      <div class="navitems">Notifications</div>
+    </div>
+    <img id="loginimg" src="images\karan.jpg" />
+  </div>
+
+  <!-- Parent Container -->
+  <div class="container-fluid outer-container p-0">
+
+    <!-- Sidebar -->
+    <div class="leftarea px-3">
+      <div id="leftpanel">
+        <div id="panelnav">
+          <i class="fas fa-chevron-left"></i>
+          Doctors
+        </div>
+        <div>
+          <input id="searchbar" oninput="search_doctor()" type="text" placeholder="Search" class="py-3 px-2"
+            style="font-size: 1.2rem" />
+          <i class="fas fa-sort-amount-up-alt"></i>
+          <i id="filter1" class="fas fa-filter"></i>
+        </div>
+        <div class="filters d-flex flex-column justify-content-center d-class">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Availability
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li class="dropdown-item" onclick="availableFilter('Monday')">Monday</li>
+              <li class="dropdown-item" onclick="availableFilter('Tuesday')">Tuesday</li>
+              <li class="dropdown-item" onclick="availableFilter('Wednesday')">Wednesday</li>
+              <li class="dropdown-item" onclick="availableFilter('Thursday')">Thursday</li>
+              <li class="dropdown-item" onclick="availableFilter('Friday')">Friday</li>
+              <li class="dropdown-item" onclick="availableFilter('Saturday')">Saturday</li>
+              <li class="dropdown-item" onclick="availableFilter('Sunday')">Sunday</li>
+            </ul>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Fees
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li class="dropdown-item" onclick="priceFilter('low')">Low to High</li>
+              <li class="dropdown-item" onclick="priceFilter('high')">High to Low</li>
+            </ul>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Doctor Speciality
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li class="dropdown-item" onclick="fieldFilter('General Physician')">General Physician</li>
+              <li class="dropdown-item" onclick="fieldFilter('General Surgeon')">General Surgeon</li>
+              <li class="dropdown-item" onclick="fieldFilter('Cardiologist')">Cardiologist</li>
+              <li class="dropdown-item" onclick="fieldFilter('Dentist')">Dentist</li>
+              <li class="dropdown-item" onclick="fieldFilter('ENT')">ENT</li>
+              <li class="dropdown-item" onclick="fieldFilter('Dermatologist')">Dermatologist</li>
+            </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Gender
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li class="dropdown-item" onclick="Female()">Female</li>
+              <li class="dropdown-item" onclick="Male()">Male</li>
+            </ul>
+          </div>
+
+        </div>
+        <div id="card-container" class="container d-flex flex-wrap justify-content-around"></div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div id="map"></div>
+  </div>
+  <script src="./js/script.js"></script>
+  <script src="https://kit.fontawesome.com/e8f7c2bbe6.js" crossorigin="anonymous"></script>
+</body>
+<script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+<script src="./js/mapMarkers.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+
+</html>
+
+<!-- cardio- green
+dental- red
+neurosergian -blue -->
