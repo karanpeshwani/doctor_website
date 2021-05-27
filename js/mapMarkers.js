@@ -6,7 +6,7 @@ var doctors = [
     gender: "Male",
     field: "Cardiologist",
     rating: 4.7,
-    appointment_fees: 300,
+    appointment_fees: 490,
   },
   {
     name: "dr_priya",
@@ -78,32 +78,26 @@ function plotMarkers(doctors) {
 
   doctors.forEach((item) => {
     // PLOTTING THE DATA ON THE MAP
-    if(item.field === 'Dermatologist'){
-      var newLocation = new mapboxgl.Marker({ color: "yellow"})
-      .setLngLat(item.langLat)
-      .addTo(map);
-    }
-
-    else if(item.field === 'Cardiologist'){
-      var newLocation = new mapboxgl.Marker({ color: "red"})
-      .setLngLat(item.langLat)
-      .addTo(map);
-    }
-    else if(item.field === 'General Physician'){
-      var newLocation = new mapboxgl.Marker({ color: "green"})
-      .setLngLat(item.langLat)
-      .addTo(map);
-    }
-
-    else if(item.field === 'Dentist'){
-      var newLocation = new mapboxgl.Marker({ color: "blue"})
-      .setLngLat(item.langLat)
-      .addTo(map);
-    }
-    else{
-      var newLocation = new mapboxgl.Marker({ color: "black"})
-      .setLngLat(item.langLat)
-      .addTo(map);
+    if (item.field === "Dermatologist") {
+      var newLocation = new mapboxgl.Marker({ color: "yellow" })
+        .setLngLat(item.langLat)
+        .addTo(map);
+    } else if (item.field === "Cardiologist") {
+      var newLocation = new mapboxgl.Marker({ color: "red" })
+        .setLngLat(item.langLat)
+        .addTo(map);
+    } else if (item.field === "General Physician") {
+      var newLocation = new mapboxgl.Marker({ color: "green" })
+        .setLngLat(item.langLat)
+        .addTo(map);
+    } else if (item.field === "Dentist") {
+      var newLocation = new mapboxgl.Marker({ color: "blue" })
+        .setLngLat(item.langLat)
+        .addTo(map);
+    } else {
+      var newLocation = new mapboxgl.Marker({ color: "black" })
+        .setLngLat(item.langLat)
+        .addTo(map);
     }
     // MAKING THE CARDS
     document.getElementById("card-container").innerHTML += `<div
@@ -143,6 +137,15 @@ function plotMarkers(doctors) {
 
 plotMarkers(doctors);
 
+var speciality = [];
+var available_doctors = [];
+var genderfilter = [];
+var final_array_of_doctors = [];
+var x = -1;
+var fieldflag = 0;
+var dayflag = 0;
+var genderflag = 0;
+
 function compareObjects(object1, object2, key) {
   const obj1 = object1[key];
   const obj2 = object2[key];
@@ -169,72 +172,143 @@ function compareObjectsDes(object1, object2, key) {
   return 0;
 }
 
-function priceFilter(filterType) {
-  if (filterType == "low") {
-    var newDoctors = doctors;
+function toggle1(a) {
+  x = a;
+}
+
+function priceFilter() {
+  if (x === 0) {
+    var newDoctors = final_array_of_doctors;
     newDoctors.sort((a, b) => {
       return compareObjects(a, b, "appointment_fees");
     });
-    plotMarkers(newDoctors);
-  } else if (filterType == "high") {
-    var newDoctors = doctors;
+    // plotMarkers(newDoctors);
+  } else if (x === 1) {
+    var newDoctors = final_array_of_doctors;
     newDoctors.sort((a, b) => {
       return compareObjectsDes(a, b, "appointment_fees");
     });
-    plotMarkers(newDoctors);
+    // plotMarkers(newDoctors);
+  } else if (x === -1) {
+    var newDoctors = final_array_of_doctors;
   }
+  // console.log(newDoctors);
+  plotMarkers(newDoctors);
 }
 
 function availableFilter(day) {
-  var newDoctors = doctors.filter((el) => {
+  var temp_doctors = doctors.filter((el) => {
     return el.available == day;
   });
-  if (newDoctors.length === 0) {
-    return alert("No doctors available for this filter");
-  }
-  plotMarkers(newDoctors);
+
+  available_doctors = [...available_doctors, ...temp_doctors];
+  // console.log(available_doctors)
+  console.log(temp_doctors);
+  dayflag = 1;
 }
 
 function fieldFilter(field) {
-  var newDoctors = doctors.filter((el) => {
+  var temp_array = doctors.filter((el) => {
     return el.field == field;
   });
-  if (newDoctors.length === 0) {
-    return alert("No doctors available for this filter");
-  }
-  plotMarkers(newDoctors);
+  speciality = [...speciality, ...temp_array];
+  // if (newDoctors.length === 0) {
+  //   return alert("No doctors available for this filter");
+  // }
+  // plotMarkers(newDoctors);
+  fieldflag = 1;
 }
 
-function search_doctor(){
-  let input = document.getElementById("searchbar").value
+function search_doctor() {
+  let input = document.getElementById("searchbar").value;
   input = input.toLowerCase();
-  var req_doctors=[];
-  doctors.forEach((element)=>{
-    if(element.name.toLowerCase().includes(input)){
+  var req_doctors = [];
+  doctors.forEach((element) => {
+    if (element.name.toLowerCase().includes(input)) {
       req_doctors.push(element);
     }
-  })
+  });
   plotMarkers(req_doctors);
 }
 
-function Female(){
-  var fem_doctors=[];
-  doctors.forEach((element)=>{
-    if(element.gender === 'Female'){
-      fem_doctors.push(element)
+function Female() {
+  doctors.forEach((element) => {
+    if (element.gender === "Female") {
+      genderfilter.push(element);
     }
-  })
-  plotMarkers(fem_doctors)
+  });
+  // plotMarkers(fem_doctors)
+  genderflag = 1;
 }
 
-function Male(){
-  var male_doctors=[];
-  doctors.forEach((element)=>{
-    if(element.gender === 'Male'){
-      male_doctors.push(element)
+function Male() {
+  doctors.forEach((element) => {
+    if (element.gender === "Male") {
+      genderfilter.push(element);
     }
-  })
-  plotMarkers(male_doctors)
+  });
+  // plotMarkers(male_doctors)
+  genderflag = 1;
 }
 
+function savechanges() {
+  if (genderflag === 0) {
+    genderfilter = doctors;
+  }
 
+  if (fieldflag === 0) {
+    speciality = doctors;
+  }
+
+  if (dayflag === 0) {
+    available_doctors = doctors;
+  }
+
+  var partial_array_of_doctors = [];
+  speciality.forEach((element) => {
+    available_doctors.forEach((e) => {
+      if (e === element) {
+        partial_array_of_doctors.push(e);
+      }
+    });
+  });
+  partial_array_of_doctors.forEach((element) => {
+    genderfilter.forEach((e) => {
+      if (e === element) {
+        final_array_of_doctors.push(e);
+      }
+    });
+  });
+  if (final_array_of_doctors.length === 0) {
+    return alert("No doctors available for this filter");
+  } else {
+    priceFilter();
+  }
+
+  // speciality = [];
+  // available_doctors = [];
+  // genderfilter = [];
+  // final_array_of_doctors = [];
+  // x = -1;
+  // fieldflag = 0;
+  // dayflag = 0;
+  // genderflag = 0;
+}
+
+// var speciality=[]
+// var available_doctors=[]
+// var genderfilter=[]
+
+// var final_array_of_doctors=[]
+// var a = speciality.length;
+// var b = available_doctors.length;
+// var c = genderfilter.length;
+// var n = Math.min(a,b,c);
+
+//high to low = 1
+//low to high = 0
+
+{
+  /* <li class="dropdown-item" onclick="priceFilter('low')">Low to High</li>
+<li class="dropdown-item" onclick="priceFilter('high')">High to Low</li> */
+}
